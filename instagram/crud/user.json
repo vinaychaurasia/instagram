@@ -7,13 +7,6 @@
         "password": "12345678"
     },
     {
-        "name": "Steve",
-        "age": 23,
-        "email": "12345678",
-        "user_id": "steve114",
-        "password": "12345678"
-    },
-    {
         "name": "Dave",
         "age": 23,
         "email": "12345678",
@@ -26,5 +19,19 @@
         "email": "12345678",
         "user_id": "Jhon114",
         "password": "12345678"
+    },
+    {
+        "name": "suyash",
+        "age": 24,
+        "email": "vchaur@gmail.com",
+        "user_id": "vinvinay122",
+        "password": "help"
+    },
+    {
+        "name": "vinay",
+        "age": 25,
+        "email": "vchaur@gmail.com",
+        "user_id": "vinay122",
+        "password": "skjnajsd"
     }
 ]
