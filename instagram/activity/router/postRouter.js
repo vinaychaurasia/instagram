@@ -1,4 +1,6 @@
-app.use("/api/post", postRouter);
+ const express = require("express");
+ postRouter = new express.Router();
+const { } = require("../controller/postController");
 
 //post router
 postRouter.post("/", createPost)
