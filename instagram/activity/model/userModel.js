@@ -48,7 +48,7 @@ const deleteById = function (id){
     return new Promise(function(resolve, reject){
         db.query(`DELETE FROM user WHERE uid = ${id}`, function(err, result){
             if(err){
-                reject(err);
+                reject(err);    
             }else{
                 resolve(result);
             }

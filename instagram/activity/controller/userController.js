@@ -1,5 +1,6 @@
 let userDB = require("../model/user.json"); 
 let userModel = require("../model/userModel");
+let userFollowerModel = require("../model/userFollowerModel");
 //user route handler
 async function createUser(req, res){
     try{
@@ -81,7 +82,36 @@ async function deleteUser(req, res) {
 
 }
 
+async function handleRequest(req, res){
+    try{
+        let reqObj = req.body;
+        let {is_public} = await userModel.getById(reqObj.user_id);
+        if(is_public == true){
+            reqObj.is_pending = false;
+            let mappingObj = await userFollowerModel.createRequest(reqObj);
+            return res.status(201).json({
+                status: "accepted",
+                request : mappingObj,
+                "message": "your request has been accepted"
+            })
+        }
+        
+        let mappingObj = await userFollowerModel.createRequest(reqObj);
+        return res.status(201).json({
+        status : "pending",
+        request: mappingObj,
+        "message" : "your request is pending"
+    })
+    }catch(err){
+        res.status(500).json({
+            success : "failure",
+            "message" : err.message
+        })
+    }
+}
+
 module.exports.createUser = createUser;
 module.exports.getUser = getUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
+module.exports.handleRequest = handleRequest;
