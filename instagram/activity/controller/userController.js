@@ -14,18 +14,13 @@ async function createUser(req, res){
             "message" : err.message
         })
     }
-    let user = req.body;
-    // if a new entry is created on server
-    // memory -> ram
-    userDB.push(user);
-    fs.writeFileSync(path.join(__dirname,"user.json"), JSON.stringify(userDB));
-    //    res status code server sends
 }
 
 async function getUser (req, res) {
     try{
         let { user_id } = req.params;
         let user = await userModel.getById(user_id);
+
         // no user or unknown user req
         if(user == undefined){
             return res.status(404).json({
@@ -48,58 +43,41 @@ async function getUser (req, res) {
     
 }
 
-function updateUser(req, res) {
+async function updateUser(req, res) {
     let { user_id } = req.params;
-    let user;
+    let updateObj = req.body;
     //all updated req recieved in toUpdate
-    let toUpdate = req.body;
-    for (let i = 0; i < userDB.length; i++) {
-        if (userDB[i].user_id == user_id) {
-            user = userDB[i];
-        }
-    }
-    // unknown user
-    if(user == undefined){
-        return res.status(404).json({
+    try{
+        const response = await userModel.updateById(user_id, updateObj);
+        const uUser = await userModel.getById(user_id);
+        res.status(200).json({
+            status : "success",
+            "message ": uUser
+        })
+    }catch(err){
+        res.status(500).json({
             status : "failure",
-            "message" : "user not found"
-        })    
-    }
-
-    //add if not present else update
-    for(let key in toUpdate){
-        user[key] = toUpdate[key];
-    }
-    
-    // write user in json file
-    fs.writeFileSync(path.join(__dirname,"user.json"), JSON.stringify(userDB));
-
-    return res.status(200).json({
-        status: "success",
-        "message" : "user updated"
-    })
-}
-
-function deleteUser(req, res) {
-    let {user_id} = req.params;
-    // intial length of DB
-    let intiLength = userDB.length;
-    userDB = userDB.filter(function(user){
-        return user.user_id != user_id;
-    })
-    //if intial len == final length that means user not found
-    if(intiLength == userDB.length){
-        return res.status(404).json({
-            status : "failure",
-            "message" : "user not found"    
+            err: err.message
         })
     }
-    // user found and deleted
-    fs.writeFileSync(path.join(__dirname, "user.json"), JSON.stringify(userDB));
-    return res.status(200).json({
-        status : "succesfull",
-        "message" : "user deleted"
-    })
+}
+
+async function deleteUser(req, res) {
+    let { user_id } = req.params;
+    try{
+        const dUser = await userModel.getById(user_id);
+        const response = await userModel.deleteById(dUser);
+        res.status(200).json({
+            status : "success",
+            "message ": dUser
+        })
+    }catch(err){
+        res.status(500).json({
+            status : "failure",
+            err: err.message
+        })
+    }
+    
 
 }
 
