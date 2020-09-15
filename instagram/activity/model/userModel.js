@@ -46,7 +46,7 @@ const updateById = function (uid, updateObj){
 
 const deleteById = function (id){
     return new Promise(function(resolve, reject){
-        db.query(`DELETE FROM user WHERE uid = ${id}`, function(err, result){
+        db.query(`DELETE FROM user WHERE uid = "${id}"`, function(err, result){
             if(err){
                 reject(err);    
             }else{
