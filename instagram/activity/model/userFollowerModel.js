@@ -5,7 +5,7 @@ const createRequest = function (mappingObj){
             if (err) {
                 reject(err);
             } else {
-                resolve(result);
+                resolve(mappingObj);
             }
         })
     })

@@ -5,7 +5,7 @@ const fEntry = document.querySelector(".f-entry");
 const rEntry = document.querySelector(".r-entry");
 
 search.addEventListener("click", function(e){
-    e.preventDefault();
+    e.preventDefault(); // to prevent page reload
     populateProfile(input.value);
     populateFollowers(input.value);
     console.log("request sent");
@@ -19,8 +19,12 @@ async function populateProfile(id){
 }
 async function populateFollowers(id){
     let {data} = await axios.get(`api/v1/users/followreq/${id}`);
-    console.log(data);
+    // console.log(data);
     let arr = data.message;
+    console.log(arr);
+    if(arr.length == 0){
+        return;
+    }
     for(let i = 0; i < arr.length; i++){
         let followerObj = arr[i];
         let div = AddToUI(followerObj);
