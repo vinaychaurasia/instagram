@@ -1,26 +1,83 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
+import ProFileDetails from "./components/user/ProfileDetails";
 import './index.css';
 // import App from './App';
-import * as serviceWorker from './serviceWorker';
-import ProFileDetails from './components/user/ProFileDetails'
+import React, { Component } from 'react';
+import axios from 'axios';
+// functional component
 
-function Profile(){
+function ProfileMenu(props) {
+  let { changeMenu } = props;
   return (
-    <div className="Profile">
-      <ProFileDetails></ProFileDetails>
-      <div className="profile-menu">Profile Menu</div>
+    <div className="profile-menu">
+
+      <div className="suggestion" onClick={() => {
+        changeMenu("suggestion")
+      }}>suggestion</div>
+      <div className="request" onClick={() => {
+        changeMenu("request")
+      }}> request</div>
+      <div className="follower" onClick={() => {
+        changeMenu("followers")
+      }}>follower</div>
     </div>
   )
 }
 
-function UserView(){
+function Profile(props) {
   return (
-    <div className="userView">
-      <Profile></Profile>
-      <div className="menu-list">Menu List</div>
-    </div>
-  )
+    <div className="profile">
+      <ProFileDetails></ProFileDetails>
+      <ProfileMenu changeMenu={props.changeMenu}></ProfileMenu>
+    </div>)
+}
+
+class UserView extends Component {
+  state = {
+    cMenu: "suggestion",
+    list: []
+  }
+  changeMenu = async (nMenu) => {
+    //  get followers of current user 
+    // state 
+    //  request => get followers_id
+    let obj = await axios.get("/api/v1/users/followreq/77c3d317-ece3-40e9-bbc8-4262e84f3b6c");
+    let uFollArr = [];
+    if (nMenu === "followers") {
+      // console.log(uFollArr);
+      uFollArr = obj.data.message.filter(follower => follower.is_pending === 0 );
+
+    } else if (nMenu === "request") {
+
+      uFollArr = obj.data.message
+        .filter(follower => follower.is_pending === 1);
+    }
+    this.setState({
+      cMenu: nMenu,
+      list: uFollArr
+    })
+    // follower_id => user => details
+  }
+  render() {
+    return (<div className="userView">
+      <Profile changeMenu={this.changeMenu}></Profile>
+      <MenuList list={this.state.list}></MenuList>
+    </div>)
+  }
+}
+
+function MenuList(props) {
+  // req => class based 
+  let { list } = props;
+  return (<div className="menu-list">{
+    list.map((follower) => {
+      return (<div >
+        <img src={follower.p_img_url} alt="profile-img"></img>
+        <div> {follower.email_id}</div>
+        <div>{follower.handle}</div>
+      </div>)
+    })
+  }</div>)
 }
 
 function App() {
@@ -33,11 +90,4 @@ function App() {
     </React.Fragment>
   );
 }
-
-ReactDOM.render(<App />, document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<App />, document.getElementById('root'));
