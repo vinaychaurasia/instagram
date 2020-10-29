@@ -1,18 +1,8 @@
-let db = require("./connection");
+let db = require("../utility/connection");
 const { v4: uuidv4 } = require('uuid');
-// will create user in DB
-const create = function (userObj){
-    userObj.uid = uuidv4();
-    return new Promise(function(resolve, reject){
-        db.query('INSERT INTO user SET ?', userObj, function (err, result) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(userObj);
-            }
-        })
-    })
-}
+const { createEntityFact } = require("../utility/modelFactory");
+
+const createUser = createEntityFact("user");
 
 const getById = function (id){
     return new Promise(function(resolve, reject){
@@ -56,7 +46,7 @@ const deleteById = function (id){
     })
 }
 
-module.exports.create = create;
+module.exports.create = createUser;
 module.exports.getById = getById;
 module.exports.updateById = updateById;
 module.exports.deleteById = deleteById;

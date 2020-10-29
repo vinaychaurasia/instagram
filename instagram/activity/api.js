@@ -12,7 +12,7 @@ let {createUser, getUser, updateUser, deleteUser} = require("./controller/userCo
 // let {createPost, getPost, updatePost, deletePost} = require("./controller/postController");
 
 const userRouter = require("./router/userRouter");
-// const postRouter = require("./router/postRouter");
+const postRouter = require("./router/postRouter");
 
 // to send static resources to client
 app.use(express.static("view"));
@@ -24,7 +24,7 @@ app.use(express.json());
 // handler req.body 
 
 app.use("/api/v1/users", userRouter);
-// app.use("/api/post", postRouter);
+app.use("/api/v1/post", postRouter);
 
 // localhost:3000/api/users
 app.listen(4000, function () {

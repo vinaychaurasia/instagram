@@ -1,4 +1,4 @@
-let db = require("./connection");
+let db = require("../utility/connection");
 const createRequest = function (mappingObj){
     return new Promise(function(resolve, reject){
         db.query('INSERT INTO user_follower SET ?', mappingObj, function (err, result) {

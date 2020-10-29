@@ -1,9 +1,10 @@
- const express = require("express");
- postRouter = new express.Router();
-const { } = require("../controller/postController");
+const express = require("express");
+const postRouter = new express.Router();
+
+const { createPost } = require("../controller/postController");
 
 //post router
-postRouter.post("/", createPost)
+postRouter.route("/").post(createPost);
 
 postRouter.route("/:user_id").get(getPost).patch(updatePost).delete(deletePost);
 
