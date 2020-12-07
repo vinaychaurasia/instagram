@@ -1,0 +1,25 @@
+.header{
+    height: 55px;
+    box-shadow: 1px 4px 3px 0px rgba(0,0,0,.2)
+    /* z-index: 999 */
+}
+
+
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.fadeIn{
+    opacity: 0.35;
+}
+
+.logoImg {
+    width: 55px;
+    float: left;
+}
+
+.logo-container{
+    width: 50%;
+    height: 55px;
+}

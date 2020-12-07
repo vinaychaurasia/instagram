@@ -1,0 +1,44 @@
+@import 'btn';
+@import 'header';
+@import 'templateImg';
+
+
+.nav-links{
+    width: 50%;
+}
+
+.nav-links-ul{
+    justify-content: space-evenly;
+}
+
+.nav-link-li{
+    list-style: none;
+    color: #70C2AA;
+}
+
+.middle{
+    text-align: center;
+}
+
+.resumeImg {
+    width: 35%;
+}
+  
+  .container {
+    margin: 10% auto;
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .templ{
+    padding: 0px;
+    margin: 0px;
+}
+  
+  .container h1 {
+    font-size: 40px;
+    font-weight: 200;
+  }
+  
+
+  
